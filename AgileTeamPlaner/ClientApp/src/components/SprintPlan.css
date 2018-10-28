@@ -1,0 +1,69 @@
+﻿
+.planningTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cellStyle {
+    width: 6%;
+    padding: 0 0 0 0 !important;
+    text-align: center;
+    margin: 0 0 0 0;
+}
+
+.dragStyle {
+    background: #e2e3e9;
+    align-content: center;
+}
+
+.teamMember {
+    width: 55px;
+    text-align: center;
+}
+
+.image {
+    -moz-box-sizing: border-box;
+    float: left;
+    height: 50px;
+    margin-bottom: 1px;
+    padding: 1px;
+    vertical-align: middle;
+}
+
+.image .img {
+    display: block;
+    vertical-align: middle;
+    position: relative;
+}
+
+.delete {
+    position: absolute;
+    color: #000;
+    display: inline-block;
+    margin-top: 0;
+    margin-left: 0;
+    width: 12px;
+    height: 12px;
+    top: 5px;
+    right: 5px;
+}
+
+.delete:before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: currentColor;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.delete:after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: currentColor;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
