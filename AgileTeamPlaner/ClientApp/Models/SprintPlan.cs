@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScrumTeamPlanner.ClientApp.src.model {
+namespace ScrumTeamPlanner.Models {
 
     public class SprintPlan {
         public string SprintId { get; set; }
