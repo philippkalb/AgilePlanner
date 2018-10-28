@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ScrumTeamPlanner.ClientApp.src.model;
+using ScrumTeamPlanner.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -86,7 +84,7 @@ namespace ScrumTeamPlanner.Controllers {
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]AddToUserstoryAndDay value) {
+        public void Put(int id, [FromBody]AddToUserstoryAndDayInput value) {
         }
 
         // DELETE api/<controller>/5
