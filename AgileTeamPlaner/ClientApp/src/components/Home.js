@@ -27,6 +27,7 @@ export class Home extends React.Component {
         fetch('api/Sprint/1')
             .then(response => response.json())
             .then(data => {
+                debugger;
                 this.setState({ plan: data, loading: false });
                 this.prepareColums();
                 this.createTable();
@@ -158,7 +159,7 @@ export class Home extends React.Component {
         var cell = row.children[collIndex];
 
         if (Array.isArray(cell) && cell.indexOf(index) >= 0) {
-            fetch('api/Sprint/', {
+            fetch('api/Sprint/RemoveTeammember', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -170,6 +171,7 @@ export class Home extends React.Component {
                     teamMember: index
                 })
             }).then(response => {
+                debugger;
                 cell.splice(cell.indexOf(index), 1);
                 this.setState({
                     matrix: matrix

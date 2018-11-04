@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ScrumTeamPlanner.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ScrumTeamPlanner.ClientApp.Repository
-{
+namespace ScrumTeamPlanner.ClientApp.Repository {
     public  interface ISprintPlanRepository {
 
         Task<IEnumerable<string>> GetAllSprintPlanIds();

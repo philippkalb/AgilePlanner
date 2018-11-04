@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.7.0" />
@@ -25,10 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\Repository\ISprintPlanRepository.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Remove="ClientApp\Repository\ISprintPlanRepository.cs" />
+    <None Remove="ClientApp\Repository\Models\SprintPlan.cs" />
+    <None Remove="ClientApp\Repository\SprintPlanRepository.cs" />
     <None Remove="ClientApp\src\Images\1.png" />
     <None Remove="ClientApp\src\Images\2.png" />
     <None Remove="ClientApp\src\Images\3.png" />
