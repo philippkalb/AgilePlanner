@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using ScrumTeamPlanner.ClientApp.Repository;
 
 namespace WebApplication1
@@ -31,7 +32,10 @@ namespace WebApplication1
                 configuration.RootPath = "ClientApp/build";
             });
 
+
             services.AddScoped<ISprintPlanRepository, SprintPlanRepository>();
+            services.AddSingleton<IMongoClient>(new MongoClient("mongodb://root:example@localhost:27017"));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

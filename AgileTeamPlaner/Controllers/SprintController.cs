@@ -19,32 +19,33 @@ namespace ScrumTeamPlanner.Controllers {
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get() {
-            return new string[] { "Sprint 1" };
+        public async Task<IEnumerable<string>> Get() {
+
+            var allPlans = await _sprintPlan.GetAllSprintPlanIds();
+            return allPlans;
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public async Task<SprintPlan> Get(int id) {
+        public async Task<SprintPlan> Get(string id) {
             //for the first version use the models also directly in the repo. Currently, we do not need 200 levels
-            var plan = await _sprintPlan.GetPlan("Sprint 1");
+            var plan = await _sprintPlan.GetPlan(id);
             return plan;
         }
 
         [HttpPost]
         [Route("RemoveTeammember")]
-        public void RemoveTeammember([FromBody]RemoveTeamMemberInput test) {
+        public async Task RemoveTeammember([FromBody]RemoveTeamMemberInput value) {
+            await _sprintPlan.RemoveTeamMemberFromPlan(value.SprintName, value.StoryName, value.Day, value.TeamMember);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]AddToUserstoryAndDayInput value) {
+        public async Task Put(int id, [FromBody]AddToUserstoryAndDayInput value) {
+            //id => user id
+            await _sprintPlan.AddTeamMemberToPlan(value.SprintName, value.StoryName, value.Day, id);
         }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id) {
-        }
+        
     }
 
 }

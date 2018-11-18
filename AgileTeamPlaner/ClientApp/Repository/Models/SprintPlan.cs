@@ -4,6 +4,7 @@ using System;
 
 namespace ScrumTeamPlanner.Repository.Models {
 
+    [BsonIgnoreExtraElements]
     public class SprintPlan {
 
         [BsonId]
@@ -26,6 +27,7 @@ namespace ScrumTeamPlanner.Repository.Models {
 
     }
 
+    [BsonIgnoreExtraElements]
     public class UserStory {
 
         [BsonElement("name")]
@@ -41,6 +43,7 @@ namespace ScrumTeamPlanner.Repository.Models {
         public PersonInStory[] Persons { get; set; }
     }
 
+    [BsonIgnoreExtraElements]
     public class PersonInStory {
 
         [BsonElement("day")]

@@ -62,10 +62,10 @@ export class Image extends React.Component {
         }
 
         return (
-            <div class="image">
-                <div class="img">
+            <div className="image">
+                <div className="img">
                     {image}
-                    <i onClick={(e) => this.onClick(e)}  class="icon-remove blue delete"></i>
+                    <i onClick={(e) => this.onClick(e)}  className="icon-remove blue delete"></i>
                 </div>
             </div>
         );

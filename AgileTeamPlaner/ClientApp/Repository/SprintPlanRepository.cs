@@ -11,26 +11,41 @@ namespace ScrumTeamPlanner.ClientApp.Repository
 {
     public class SprintPlanRepository : ISprintPlanRepository {
         private readonly IMapper _mapper;
+        private readonly IMongoClient _client;
 
-        public SprintPlanRepository(IMapper mapper) {
+        public SprintPlanRepository(IMapper mapper, IMongoClient client) {
             _mapper = mapper;
+            _client = client;
         }
 
-        public Task<bool> AddTeamMemberToPlan(string planId, string storyId, string memberId) {
-            throw new NotImplementedException();
+        public Task<bool> AddTeamMemberToPlan(string planId, string storyId, int day, int memberId) {
+            var db = _client.GetDatabase("Sprints");
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+
+            var item = new ScrumTeamPlanner.Repository.Models.PersonInStory {
+                Day = day,
+                PersonId =  memberId
+            };
+
+            var builder = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Filter;
+            var itemFilter = builder.Eq("sprintId", planId) & builder.Eq("userStories.name", storyId);
+            var update = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.AddToSet("userStories.$.persons", item);
+
+            var result = collection.FindOneAndUpdate<ScrumTeamPlanner.Repository.Models.SprintPlan>(itemFilter, update);
+            return  Task.FromResult(result != null); //does not really tell us if the update was ok. It tells us that the find was ok 
         }
 
-        public Task<IEnumerable<string>> GetAllSprintPlanIds() {
-            throw new NotImplementedException();
+        public Task<string[]> GetAllSprintPlanIds() {
+            var db = _client.GetDatabase("Sprints");
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+            var sprintIdProjection = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Projection.Include(x => x.SprintId);
+
+            var elements = collection.Find(new BsonDocument()).SortByDescending(bson => bson.StartDate).Project(sprintIdProjection).ToList().Select(x => x.GetElement("sprintId").Value.ToString()).ToArray();
+            return Task.FromResult(elements);
         }
 
-        public Task<SprintPlan> GetPlan(string id) {
-            //in the future configure this via DI in startup
-            var mongoClient = new MongoClient();
-            // Using a connection-string
-            mongoClient = new MongoClient("mongodb://root:example@localhost:27017");
-
-            var db = mongoClient.GetDatabase("Sprints");
+        public Task<SprintPlan> GetPlan(string id) { 
+            var db = _client.GetDatabase("Sprints");
             var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
             
             var filter = new BsonDocument("sprintId", id);
@@ -40,8 +55,21 @@ namespace ScrumTeamPlanner.ClientApp.Repository
             return Task.FromResult<SprintPlan>(result);
         }
 
-        public Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, string memberId) {
-            throw new NotImplementedException();
+        public Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, int day, int memberId) {
+            var db = _client.GetDatabase("Sprints");
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+
+            var builder = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Filter;
+            var itemFilter = builder.Eq("sprintId", planId) & builder.Eq("userStories.name", storyId);
+
+            var item = new ScrumTeamPlanner.Repository.Models.PersonInStory {
+                Day = day,
+                PersonId = memberId
+            };
+
+            var update = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.Pull("userStories.$.persons", item);
+            var result = collection.FindOneAndUpdate<ScrumTeamPlanner.Repository.Models.SprintPlan>(itemFilter, update);
+            return Task.FromResult(result != null); //does not really tell us if the update was ok. It tells us that the find was ok 
         }
     }
 }

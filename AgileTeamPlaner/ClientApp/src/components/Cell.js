@@ -65,7 +65,8 @@ export class Cell extends React.Component {
 
         if (this.props.cellType == CellTypes.images) {
             return (
-                <td onDragOver={(e) => this.onDragOver(e)}
+                <td key={this.props.key}
+                    onDragOver={(e) => this.onDragOver(e)}
                     onDragLeave={(e) => this.onDragLeave(e)}
                     onDragEnd={(e) => this.onDragEnd(e)}
                     className={boxClass.join(' ')} >
@@ -74,7 +75,8 @@ export class Cell extends React.Component {
             )
         } else if (this.props.cellType == CellTypes.empty) {
             return (
-                <td onDragOver={(e) => this.onDragOver(e)}
+                <td key={this.props.key}
+                    onDragOver={(e) => this.onDragOver(e)}
                     onDragLeave={(e) => this.onDragLeave(e)}
                     onDragEnd={(e) => this.onDragEnd(e)}
                     className={boxClass.join(' ')} >
@@ -83,7 +85,7 @@ export class Cell extends React.Component {
         } else {
             return (
                 <td>
-                    <ContentCell userstory={this.props.context.story} points={this.props.context.points} workdays={this.props.context.workdays}></ContentCell>
+                    <ContentCell key={this.props.context.story} userstory={this.props.context.story} points={this.props.context.points} workdays={this.props.context.workdays}></ContentCell>
                 </td>
             )
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ScrumTeamPlanner.Models {
 
@@ -22,7 +23,7 @@ namespace ScrumTeamPlanner.Models {
 
         public int StoryPoints { get; set; }
 
-        public PersonInStory[] Persons { get; set; }
+        public List<PersonInStory> Persons { get; set; }
     }
 
     public class PersonInStory {
