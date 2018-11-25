@@ -17,6 +17,7 @@ export class Image extends React.Component {
     }
 
     onClick = (ev) => {
+        ev.preventDefault();
         this.props.removeMemberFromDay(ev, this.props.imagenumber); 
     }
 

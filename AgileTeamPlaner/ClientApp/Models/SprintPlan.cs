@@ -12,7 +12,11 @@ namespace ScrumTeamPlanner.Models {
 
         public UserStory[] UserStories { get; set; }
 
+       
+
         public int[] TeamMembers { get; set; }
+
+       
 
     }
 
@@ -24,6 +28,8 @@ namespace ScrumTeamPlanner.Models {
         public int StoryPoints { get; set; }
 
         public List<PersonInStory> Persons { get; set; }
+
+        public DayState[] States { get; set; }
     }
 
     public class PersonInStory {
@@ -31,6 +37,16 @@ namespace ScrumTeamPlanner.Models {
         public int Day { get; set; }
 
         public int PersonId { get; set; }
+    }
+
+
+    public class DayState {
+
+        public int Day { get; set; }
+
+        public int Color { get; set; }
+
+        public string Text { get; set; }
     }
 }
 

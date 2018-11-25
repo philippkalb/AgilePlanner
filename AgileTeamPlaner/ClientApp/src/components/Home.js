@@ -4,6 +4,7 @@ import { Image } from './Image';
 import { SprintPlanner } from './SprintPlanner';
 
 import './SprintPlan.css';
+import Reflux from 'reflux';
 
 /**
  * This is the main class that renders the sprint plan. Currently, it contains lots of strange and duplicated code but hopefully this becomes better.
@@ -15,10 +16,12 @@ export class Home extends React.Component {
         super(props, context);
         this._columns = [];
 
+      
         this.state = {
             isLoading: false,
             plans: null,
-            currentSprint: null
+            currentSprint: null,
+            toggle: false
         };
 
         // get the first one.. 1 is not correct but this is now only a test
@@ -38,7 +41,6 @@ export class Home extends React.Component {
     render() {
         let listItems = null;
         let sprintComponent = null;
-
         if (this.state.plans == null) {
             listItems = "no sprints found";
         } else {
@@ -73,8 +75,8 @@ export class Home extends React.Component {
                 <div className="container-fluid">
                     <div className="row ">
                         {sprintComponent}
-                </div>
-                </div>
+                    </div>               
+                </div>            
             </div>
         );
     }

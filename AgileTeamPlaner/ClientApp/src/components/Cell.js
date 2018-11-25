@@ -13,6 +13,9 @@ import logo9 from '../Images/9.png';
 import logo10 from '../Images/10.png';
 import './SprintPlan.css';
 import PropTypes from 'prop-types';
+import Drawer from 'react-drag-drawer'
+import './SprintPlan.css';
+import { StatusUpdateAction } from './actions'
 
 export const CellTypes = {
     empty: 'empty',
@@ -23,7 +26,7 @@ export const CellTypes = {
 export class Cell extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { addClass: false }
+        this.state = { addClass: false, toggle: false }
     }
 
     start() {
@@ -54,23 +57,33 @@ export class Cell extends React.Component {
         this.stop();
     }
 
-    
-
+    onClick = (ev) => {
+        var collIndex = ev.target.closest("td").cellIndex;
+        var rowIndex = ev.target.closest("tr").rowIndex;
+        StatusUpdateAction(true, collIndex, rowIndex, this.props.text );
+    }
 
     render() {
         let boxClass = ["cellStyle"];
-        if (this.state.addClass && (Array.isArray(this.props.images) || this.props.images == 'empty')) {
+        if (this.state.addClass && (Array.isArray(this.props.images) || this.props.images === 'empty')) {
             boxClass.push('dragStyle');
         }
+        if (this.props.color === 1) {
+            boxClass.push("btn-success")
+        } else if (this.props.color == 2) {
+            boxClass.push("btn-danger")
+        }
 
-        if (this.props.cellType == CellTypes.images) {
+        if (this.props.cellType === CellTypes.images) {
             return (
                 <td key={this.props.key}
                     onDragOver={(e) => this.onDragOver(e)}
                     onDragLeave={(e) => this.onDragLeave(e)}
-                    onDragEnd={(e) => this.onDragEnd(e)}
+                    onDragEnd={(e) => this.onDragEnd(e)}                    
                     className={boxClass.join(' ')} >
-                    {this.props.images.map(this.renderCell)}
+                    <div className="note" onClick={(e) => this.onClick(e)}>
+                        {this.props.images.map(this.renderCell)}
+                    </div>
                 </td>
             )
         } else if (this.props.cellType == CellTypes.empty) {
@@ -79,14 +92,14 @@ export class Cell extends React.Component {
                     onDragOver={(e) => this.onDragOver(e)}
                     onDragLeave={(e) => this.onDragLeave(e)}
                     onDragEnd={(e) => this.onDragEnd(e)}
-                    className={boxClass.join(' ')} >
+                    className={boxClass.join(' ')}>                    
                 </td>
             )
         } else {
             return (
-                <td>
-                    <ContentCell key={this.props.context.story} userstory={this.props.context.story} points={this.props.context.points} workdays={this.props.context.workdays}></ContentCell>
-                </td>
+                <td>               
+                  <ContentCell key={this.props.context.story} userstory={this.props.context.story} points={this.props.context.points} workdays={this.props.context.workdays}></ContentCell>
+               </td>
             )
         }
     }

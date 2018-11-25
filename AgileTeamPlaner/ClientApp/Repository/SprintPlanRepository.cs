@@ -71,5 +71,43 @@ namespace ScrumTeamPlanner.ClientApp.Repository
             var result = collection.FindOneAndUpdate<ScrumTeamPlanner.Repository.Models.SprintPlan>(itemFilter, update);
             return Task.FromResult(result != null); //does not really tell us if the update was ok. It tells us that the find was ok 
         }
+
+
+        /// <summary>
+        /// TODO test that was just the very basic idea
+        /// </summary>
+        /// <param name="planId"></param>
+        /// <param name="storyId"></param>
+        /// <param name="day"></param>
+        /// <param name="color"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public Task<bool> AddStateToPlanAndDay(string planId, string storyId, int day, int color, string text) {
+            var db = _client.GetDatabase("Sprints");
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+
+            var item = new ScrumTeamPlanner.Repository.Models.DayState {
+                Day = day,
+                Color = color,
+                Text = text
+            };
+
+            var builder = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Filter;
+            var itemFilter = builder.Eq("sprintId", planId) & builder.Eq("userStories.name", storyId);
+
+            var pullfilter = builder.Eq("day", day);
+
+            //  var deleteStatements = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.Pull("userStories.$.states", new ScrumTeamPlanner.Repository.Models.DayState { Day = day });
+            var deleteStatements = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.PullFilter("userStories.$.states", pullfilter);
+        
+            var deleteResult = collection.FindOneAndUpdate<ScrumTeamPlanner.Repository.Models.SprintPlan>(itemFilter, deleteStatements);
+
+            //add new config but remove old one first
+            var update = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.AddToSet("userStories.$.states", item);
+
+            var result = collection.FindOneAndUpdate<ScrumTeamPlanner.Repository.Models.SprintPlan>(itemFilter, update);
+            return Task.FromResult(result != null); //does not really tell us if the update was ok. It tells us that the find was ok 
+        }
+
     }
 }

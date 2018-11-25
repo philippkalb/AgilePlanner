@@ -45,7 +45,13 @@ namespace ScrumTeamPlanner.Controllers {
             //id => user id
             await _sprintPlan.AddTeamMemberToPlan(value.SprintName, value.StoryName, value.Day, id);
         }
-        
+
+        [HttpPost("{id}")]
+        public async Task AddStateToPlanAndDay(int id, [FromBody]AddStateToPlanAndDay value) {
+            //id => user id
+            await _sprintPlan.AddStateToPlanAndDay(value.SprintName, value.StoryName, value.Day, value.Color, value.Text);
+        }        
+
     }
 
 }

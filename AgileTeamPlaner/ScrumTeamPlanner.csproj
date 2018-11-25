@@ -22,11 +22,19 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\model\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\model\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\src\model\**" />
+    <None Remove="ClientApp\src\model\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\Models\AddStateToPlanAndDay.cs" />
     <None Remove="ClientApp\Repository\ISprintPlanRepository.cs" />
     <None Remove="ClientApp\Repository\Models\SprintPlan.cs" />
     <None Remove="ClientApp\Repository\SprintPlanRepository.cs" />
@@ -45,10 +53,6 @@
     <Content Include="ClientApp\src\Images\3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\model\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

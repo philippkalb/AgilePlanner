@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace ScrumTeamPlanner.Repository.Models {
 
@@ -41,6 +42,9 @@ namespace ScrumTeamPlanner.Repository.Models {
 
         [BsonElement("persons")]
         public PersonInStory[] Persons { get; set; }
+
+        [BsonElement("states")]
+        public DayState[] States { get; set; }
     }
 
     [BsonIgnoreExtraElements]
@@ -51,6 +55,19 @@ namespace ScrumTeamPlanner.Repository.Models {
 
         [BsonElement("personId")]
         public int PersonId { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class DayState {
+
+        [BsonElement("day")]
+        public int Day { get; set; }
+
+        [BsonElement("color")]
+        public int Color { get; set; }
+
+        [BsonElement("text")]
+        public string Text { get; set; }
     }
 }
 
