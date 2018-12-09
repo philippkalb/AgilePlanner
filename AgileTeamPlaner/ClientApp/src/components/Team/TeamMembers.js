@@ -21,7 +21,6 @@ export class TeamMembers extends Reflux.Component {
             .then(data => {
                 this.setState({ team: data, loading: false });                
             });
-        debugger;
     }
 
 

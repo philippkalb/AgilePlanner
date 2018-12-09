@@ -43,5 +43,15 @@ namespace ScrumTeamPlanner.ClientApp.Repository
             return Task.FromResult(result);            
         }
 
+
+        public Task<ScrumTeamPlanner.Models.TeamMember> GetTeamMemberByNickName(string nickname) {
+            var db = _client.GetDatabase(dbname);
+            var collection = db.GetCollection<TeamMember>(MongoDbCollectionName);
+            var element = collection.Find(x => x.Nickname == nickname).FirstOrDefault();
+
+            var result = _mapper.Map<Models.TeamMember>(element);
+            return Task.FromResult(result);
+        }
+
     }
 }

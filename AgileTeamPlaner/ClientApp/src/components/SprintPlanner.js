@@ -277,7 +277,6 @@ export class SprintPlanner extends Reflux.Component {
         }
     }
 
-
     onSaveAndCloseClick = (ev) => {
         const CurrentCollIndex = this.state.CurrentCollIndex;
         const CurrentRowIndex = this.state.CurrentRowIndex;

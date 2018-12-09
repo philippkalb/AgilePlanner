@@ -12,28 +12,47 @@ import logo10 from '../Images/10.png';
 
 export class Team extends React.Component {
 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            team: null,
+            loading: true
+        };
+
+        fetch('api/Team/')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ team: data, loading: false });
+            });
+    }
+
     onDragStart = (ev, id) => {
         ev.dataTransfer.setData("id", id);
     }
 
     render() {
-        return (
-            <div className="col-xs-12">
-                <div className="row">
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 1)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo1} /><br />Philipp</div></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 2)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo2} /><br />Mike</div></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 3)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo3} /><br />Dmitryo</div ></div>
 
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 4)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo4} /><br />Max</div ></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 5)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo5} /><br />Benny</div ></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 6)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo6} /><br />Hannes</div ></div>
-
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 7)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo7} /><br />Julia</div ></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 8)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo8} /><br />Nataliya</div ></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 9)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo9} /><br />Alex</div ></div>
-                    <div className="col-md-1"><div className="teamMember"><img onDragStart={(e) => this.onDragStart(e, 10)} draggable alt="test" style={{ width: '50px', height: '50px' }} src={logo10} /><br />Franz</div ></div>
+        if (this.state.team != null) {
+            return (
+                <div className="col-xs-12">
+                    <div className="row">
+                        {this.state.team.map((teammember) =>
+                            <div className="col-md-1">
+                                <div className="teamMember">
+                                    <img onDragStart={(e) => this.onDragStart(e, teammember.nickname)}
+                                        draggable alt="test" style={{ width: '50px', height: '50px' }}
+                                        src={teammember.image} /><br />{teammember.nickname}</div>
+                            </div>
+                        )
+                        }
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        } else {
+            return (
+                <p> no data or still loading </p>
+            );
+        }
     }
 };

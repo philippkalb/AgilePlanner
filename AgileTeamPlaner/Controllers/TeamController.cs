@@ -37,9 +37,9 @@ namespace ScrumTeamPlanner.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+        public async Task<Models.TeamMember> Get(string id)     {
+            var member = await _teamRepository.GetTeamMemberByNickName(id);            
+            return member;
         }
 
         // POST api/<controller>

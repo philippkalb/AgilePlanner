@@ -7,5 +7,7 @@ namespace ScrumTeamPlanner.ClientApp.Repository {
         Task<bool> AddTeamMemberToPlan(string Nickname, string Fullname, string Image);
         
         Task<Models.TeamMember[]> GetAllTeamMembers();
+
+        Task<ScrumTeamPlanner.Models.TeamMember> GetTeamMemberByNickName(string nickname);
     }
 }
