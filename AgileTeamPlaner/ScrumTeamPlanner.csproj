@@ -34,10 +34,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\Models\AddNewMember.cs" />
     <None Remove="ClientApp\Models\AddStateToPlanAndDay.cs" />
+    <None Remove="ClientApp\Models\TeamMember.cs" />
     <None Remove="ClientApp\Repository\ISprintPlanRepository.cs" />
+    <None Remove="ClientApp\Repository\ITeamRepository.cs" />
     <None Remove="ClientApp\Repository\Models\SprintPlan.cs" />
+    <None Remove="ClientApp\Repository\Models\TeamMember.cs" />
     <None Remove="ClientApp\Repository\SprintPlanRepository.cs" />
+    <None Remove="ClientApp\Repository\TeamRepository.cs" />
     <None Remove="ClientApp\src\Images\1.png" />
     <None Remove="ClientApp\src\Images\2.png" />
     <None Remove="ClientApp\src\Images\3.png" />

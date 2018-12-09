@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import logo1 from '../Images/1.png';
 import logo2 from '../Images/2.png';
 import logo3 from '../Images/3.png';
@@ -11,10 +11,6 @@ import logo9 from '../Images/9.png';
 import logo10 from '../Images/10.png';
 
 export class Team extends React.Component {
-
-    constructor(props, context) {
-        super(props, context);
-    }
 
     onDragStart = (ev, id) => {
         ev.dataTransfer.setData("id", id);

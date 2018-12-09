@@ -1,0 +1,100 @@
+{
+    "sprintId" : "Sprint 1",
+    "startDate" : "2018-11-01T00:00:00",
+    "sprintLenght" : 14,
+    "userStories" : [ 
+        {
+            "name" : "MyEp 1",
+            "link" : "http://teststory.at/id=1",
+            "storyPoints" : 5,
+            "persons" : [ 
+                {
+                    "day" : 1,
+                    "personId" : 1
+                }, 
+                {
+                    "day" : 3,
+                    "personId" : 1
+                }, 
+                {
+                    "day" : 6,
+                    "personId" : 6
+                }, 
+                {
+                    "day" : 7,
+                    "personId" : 6
+                }, 
+                {
+                    "day" : 2,
+                    "personId" : 4
+                }
+            ],
+            "states" : [ 
+                {
+                    "day" : 2,
+                    "color" : 2,
+                    "text" : null
+                }, 
+                {
+                    "day" : 3,
+                    "color" : 2,
+                    "text" : null
+                }, 
+                {
+                    "day" : 1,
+                    "color" : 3,
+                    "text" : null
+                }
+            ]
+        }, 
+        {
+            "name" : "MyEp 2",
+            "link" : "http://teststory.at/id=2",
+            "storyPoints" : 2,
+            "persons" : [ 
+                {
+                    "day" : 3,
+                    "personId" : 3
+                }, 
+                {
+                    "day" : 5,
+                    "personId" : 4
+                }, 
+                {
+                    "day" : 5,
+                    "personId" : 4
+                }, 
+                {
+                    "day" : 2,
+                    "personId" : 4
+                }, 
+                {
+                    "day" : 1,
+                    "personId" : 2
+                }, 
+                {
+                    "day" : 9,
+                    "personId" : 9
+                }
+            ],
+            "states" : [ 
+                {
+                    "day" : 2,
+                    "color" : 3,
+                    "text" : null
+                }, 
+                {
+                    "day" : 6,
+                    "color" : 1,
+                    "text" : null
+                }, 
+                {
+                    "day" : 4,
+                    "color" : 1,
+                    "text" : null
+                }
+            ]
+        }
+    ],
+    "teamMembers" : null
+}

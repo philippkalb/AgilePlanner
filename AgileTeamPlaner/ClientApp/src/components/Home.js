@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
-import * as moment from 'moment';
-import { Image } from './Image';
+import React from 'react';
 import { SprintPlanner } from './SprintPlanner';
 
 import './SprintPlan.css';
-import Reflux from 'reflux';
 
 /**
  * This is the main class that renders the sprint plan. Currently, it contains lots of strange and duplicated code but hopefully this becomes better.
@@ -41,12 +38,13 @@ export class Home extends React.Component {
     render() {
         let listItems = null;
         let sprintComponent = null;
-        if (this.state.plans == null) {
+        if (this.state.plans === null) {
             listItems = "no sprints found";
         } else {
             listItems = this.state.plans.map((sprintName) =>
                 <button
                     type="button"
+                    key={sprintName} 
                     className="btn btn-primary"
                     onClick={() => this.onSprintButtonClick({ sprintName })} >
                     {sprintName}

@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import logo1 from '../Images/1.png';
 import logo2 from '../Images/2.png';
 import logo3 from '../Images/3.png';
@@ -12,9 +12,7 @@ import logo10 from '../Images/10.png';
 
 
 export class Image extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
 
     onClick = (ev) => {
         ev.preventDefault();
@@ -24,41 +22,41 @@ export class Image extends React.Component {
     render() {
         var image = null;
 
-        if (parseInt(this.props.imagenumber) === 1) {
+        if (parseInt(this.props.imagenumber,10) === 1) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo1} />
         }
 
-        if (parseInt(this.props.imagenumber) === 2) {
+        if (parseInt(this.props.imagenumber, 10) === 2) {
            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo2} />
         }
 
-        if (parseInt(this.props.imagenumber) === 3) {
+        if (parseInt(this.props.imagenumber, 10) === 3) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo3} />
         }
 
-        if (parseInt(this.props.imagenumber) === 4) {
+        if (parseInt(this.props.imagenumber, 10) === 4) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo4} />
         }
 
-        if (parseInt(this.props.imagenumber) === 5) {
+        if (parseInt(this.props.imagenumber, 10) === 5) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo5} />
         }
 
-        if (parseInt(this.props.imagenumber) === 6) {
+        if (parseInt(this.props.imagenumber, 10) === 6) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo6} />
         }
 
-        if (parseInt(this.props.imagenumber) === 7) {
+        if (parseInt(this.props.imagenumber, 10) === 7) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo7} />
         }
-        if (parseInt(this.props.imagenumber) === 8) {
+        if (parseInt(this.props.imagenumber, 10) === 8) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo8} />
         }
-        if (parseInt(this.props.imagenumber) === 9) {
+        if (parseInt(this.props.imagenumber, 10) === 9) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo9} />
         }
 
-        if (parseInt(this.props.imagenumber) === 10) {
+        if (parseInt(this.props.imagenumber, 10) === 10) {
             image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo10} />
         }
 

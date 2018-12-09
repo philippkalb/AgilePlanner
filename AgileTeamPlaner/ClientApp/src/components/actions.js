@@ -1,5 +1,6 @@
-﻿import React, { Component } from 'react';
-import Reflux from 'reflux';
+﻿import Reflux from 'reflux';
 
 const StatusUpdateAction = Reflux.createAction();
-export { StatusUpdateAction };
+const ShowAddteamMemberAction = Reflux.createAction();
+const UpdateTeamMembersList = Reflux.createAction();
+export { StatusUpdateAction, ShowAddteamMemberAction, UpdateTeamMembersList };

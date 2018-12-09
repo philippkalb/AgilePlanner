@@ -25,7 +25,13 @@ export class NavMenu extends Component {
             </LinkContainer>
             <LinkContainer to={'/fetchdata'}>
               <NavItem>
-                <Glyphicon glyph='th-list' /> Plan Sprint
+                            <Glyphicon glyph='play' /> Plan Sprint
+              </NavItem>
+            </LinkContainer>
+
+            <LinkContainer to={'/TeamManagement'}>
+                <NavItem>
+                            <Glyphicon glyph='user' /> Team Management
               </NavItem>
             </LinkContainer>
           </Nav>

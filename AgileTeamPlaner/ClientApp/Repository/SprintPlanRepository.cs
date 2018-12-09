@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using ScrumTeamPlanner.Models;
 
-namespace ScrumTeamPlanner.ClientApp.Repository
-{
+namespace ScrumTeamPlanner.ClientApp.Repository {
     public class SprintPlanRepository : ISprintPlanRepository {
         private readonly IMapper _mapper;
         private readonly IMongoClient _client;
+        private string MongoDbCollectionName = "SprintConfiguration";
+        private string dbname = "AgilePlanner";
 
         public SprintPlanRepository(IMapper mapper, IMongoClient client) {
             _mapper = mapper;
@@ -19,8 +18,8 @@ namespace ScrumTeamPlanner.ClientApp.Repository
         }
 
         public Task<bool> AddTeamMemberToPlan(string planId, string storyId, int day, int memberId) {
-            var db = _client.GetDatabase("Sprints");
-            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+            var db = _client.GetDatabase(dbname);
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
 
             var item = new ScrumTeamPlanner.Repository.Models.PersonInStory {
                 Day = day,
@@ -36,8 +35,8 @@ namespace ScrumTeamPlanner.ClientApp.Repository
         }
 
         public Task<string[]> GetAllSprintPlanIds() {
-            var db = _client.GetDatabase("Sprints");
-            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+            var db = _client.GetDatabase(dbname);
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
             var sprintIdProjection = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Projection.Include(x => x.SprintId);
 
             var elements = collection.Find(new BsonDocument()).SortByDescending(bson => bson.StartDate).Project(sprintIdProjection).ToList().Select(x => x.GetElement("sprintId").Value.ToString()).ToArray();
@@ -45,8 +44,8 @@ namespace ScrumTeamPlanner.ClientApp.Repository
         }
 
         public Task<SprintPlan> GetPlan(string id) { 
-            var db = _client.GetDatabase("Sprints");
-            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+            var db = _client.GetDatabase(dbname);
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
             
             var filter = new BsonDocument("sprintId", id);
             var sprint = collection.Find(filter).FirstOrDefault();
@@ -56,8 +55,8 @@ namespace ScrumTeamPlanner.ClientApp.Repository
         }
 
         public Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, int day, int memberId) {
-            var db = _client.GetDatabase("Sprints");
-            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+            var db = _client.GetDatabase(dbname);
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
 
             var builder = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Filter;
             var itemFilter = builder.Eq("sprintId", planId) & builder.Eq("userStories.name", storyId);
@@ -83,8 +82,8 @@ namespace ScrumTeamPlanner.ClientApp.Repository
         /// <param name="text"></param>
         /// <returns></returns>
         public Task<bool> AddStateToPlanAndDay(string planId, string storyId, int day, int color, string text) {
-            var db = _client.GetDatabase("Sprints");
-            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>("Configuration");
+            var db = _client.GetDatabase(dbname);
+            var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
 
             var item = new ScrumTeamPlanner.Repository.Models.DayState {
                 Day = day,

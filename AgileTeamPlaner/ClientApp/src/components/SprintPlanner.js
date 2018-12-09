@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import * as moment from 'moment';
-import { Image } from './Image';
 import { Cell } from './Cell';
 import { CellTypes } from './Cell';
 import { Team } from './Team';
 import './SprintPlan.css';
 import { ModalStore } from './ModalStore';
 import {
-    Col, Grid, Row, Modal, Button, ButtonGroup,
+     Modal, Button, 
     ButtonToolbar, ToggleButtonGroup, ToggleButton,
-    FormGroup, ControlLabel, FormControl
+    FormGroup,  FormControl
 } from 'react-bootstrap';
 import Reflux from 'reflux';
 import { StatusUpdateAction } from './actions'
@@ -30,7 +29,6 @@ const backdropStyle = {
  * This is the main class that renders the sprint plan. Currently, it contains lots of strange and duplicated code but hopefully this becomes better.
  */
 
-const EMPTY = 'empty';
 var table;
 export class SprintPlanner extends Reflux.Component {
 
@@ -77,8 +75,6 @@ export class SprintPlanner extends Reflux.Component {
     /*Prepare the data for the table which results in a matrix. The matrix is then rendered in the render function*/
     createTable = () => {
         let table = []
-        let headerrows = []
-        let rows = []
         let matrix = []
       
         //get current sprint and create date from now
@@ -97,8 +93,8 @@ export class SprintPlanner extends Reflux.Component {
                 peoplePerDay[emp.day].push(emp.personId);
             }
 
-            for (var i = 0, state; i < story.states.length; i++) {
-                state = story.states[i];
+            for (var j = 0,  state; j < story.states.length; j++) {
+                state = story.states[j];
                 if (!statesPerDay[state.day]) {
                     statesPerDay[state.day] = [];
                 }
@@ -176,15 +172,15 @@ export class SprintPlanner extends Reflux.Component {
             for (let colkey in row.children) {
 
                 let rowContent = row.children[colkey];
-                if ((rowContent.type == CellTypes.images) && (rowContent.people.length > 0)) {
+                if ((rowContent.type === CellTypes.images) && (rowContent.people.length > 0)) {
                     children.push(<Cell removeMemberFromDay={this.onRemoveMemberFromDay} cellType={CellTypes.images} images={rowContent.people} color={rowContent.color} text={rowContent.text} ></Cell>)
-                } else if ((rowContent.type == CellTypes.images) && (rowContent.people.length == 0)) {
+                } else if ((rowContent.type === CellTypes.images) && (rowContent.people.length === 0)) {
                     children.push(<Cell key={this.state.sprintName + " " + row + " " + colkey} cellType={CellTypes.empty} images={rowContent.people} text={rowContent.text} ></Cell>)
                 } else {
                     children.push(<Cell key={this.state.sprintName + " " + row + " " + colkey} cellType={CellTypes.context} context={rowContent} text={rowContent.text}></Cell>)
                 }               
 
-                if (colkey != 0 && (rowContent.people.length > 0)) {
+                if (colkey !== 0 && (rowContent.people.length > 0)) {
                     totalpeople += rowContent.people.length;
                 }
             }
@@ -208,7 +204,7 @@ export class SprintPlanner extends Reflux.Component {
         var row = matrix[rowIndex - 1];
         var cell = row.children[collIndex];
         
-        if (cell.type == CellTypes.images) {
+        if (cell.type === CellTypes.images) {
             fetch('api/Sprint/RemoveTeammember', {
                 method: 'POST',
                 headers: {
@@ -240,7 +236,7 @@ export class SprintPlanner extends Reflux.Component {
         var cell = row.children[collIndex];
 
         //if its a normal cell with images, add the image
-        if (cell.type == CellTypes.images && cell.people.length > 0 && cell.people.indexOf(id) < 0) {
+        if (cell.type === CellTypes.images && cell.people.length > 0 && cell.people.indexOf(id) < 0) {
             fetch('api/Sprint/' + id, {
                 method: 'PUT',
                 headers: {
@@ -260,7 +256,7 @@ export class SprintPlanner extends Reflux.Component {
             });
         }
         //if the cell was empty before add an array with the image/convert the cell
-        if (cell.type == CellTypes.images && cell.people.length == 0) {
+        if (cell.type === CellTypes.images && cell.people.length === 0) {
             fetch('api/Sprint/' + id, {
                 method: 'PUT',
                 headers: {
@@ -290,7 +286,7 @@ export class SprintPlanner extends Reflux.Component {
         var cell = row.children[CurrentCollIndex];
         StatusUpdateAction(false);
         
-        if (cell.type == CellTypes.images) {
+        if (cell.type === CellTypes.images) {
             fetch('api/Sprint/AddStateToPlanAndDay', {
                 method: 'POST',
                 headers: {
