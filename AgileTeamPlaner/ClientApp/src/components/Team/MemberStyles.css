@@ -1,0 +1,14 @@
+﻿
+.boxedArea {
+    border-style: dashed;
+    border-color: darkgray;
+}
+
+.thumpnailImage {
+    width: 80px;
+    height: 80px;
+}
+
+.thumpnailliststyle {
+    list-style-type: none;
+}

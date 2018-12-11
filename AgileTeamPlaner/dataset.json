@@ -1,0 +1,54 @@
+{
+    "sprintId": "Sprint 1",
+    "startDate": "2018-11-01T00:00:00",
+    "sprintLenght": 14,
+    "userStories": [
+        {
+            "name": "MyEp 1",
+            "link": "http://teststory.at/id=1",
+            "storyPoints": 5,
+            "persons": [
+                {
+                    "day": 1,
+                    "personId": 1
+                },
+                {
+                    "day": 2,
+                    "personId": 1
+                },
+                {
+                    "day": 3,
+                    "personId": 1
+                },
+                {
+                    "day": 3,
+                    "personId": 2
+                }
+            ]
+        },
+        {
+            "name": "MyEp 2",
+            "link": "http://teststory.at/id=2",
+            "storyPoints": 2,
+            "persons": [
+                {
+                    "day": 3,
+                    "personId": 3
+                },
+                {
+                    "day": 4,
+                    "personId": 3
+                },
+                {
+                    "day": 5,
+                    "personId": 4
+                },
+                {
+                    "day": 5,
+                    "personId": 4
+                }
+            ]
+        }
+    ],
+    "teamMembers": null
+}

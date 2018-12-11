@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import logo1 from '../Images/1.png';
 import logo2 from '../Images/2.png';
 import logo3 from '../Images/3.png';
@@ -12,63 +12,39 @@ import logo10 from '../Images/10.png';
 
 
 export class Image extends React.Component {
+
+
     constructor(props) {
         super(props);
+        this.state = { image: null }
+        this.DisplayName = 'Image';
+       
+        fetch('api/Team/' + this.props.imagenumber)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ image: data.image, loading: false });
+            });
     }
 
+
     onClick = (ev) => {
+        ev.preventDefault();
         this.props.removeMemberFromDay(ev, this.props.imagenumber); 
     }
 
     render() {
-        var image = null;
-
-        if (parseInt(this.props.imagenumber) === 1) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo1} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 2) {
-           image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo2} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 3) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo3} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 4) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo4} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 5) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo5} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 6) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo6} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 7) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo7} />
-        }
-        if (parseInt(this.props.imagenumber) === 8) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo8} />
-        }
-        if (parseInt(this.props.imagenumber) === 9) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo9} />
-        }
-
-        if (parseInt(this.props.imagenumber) === 10) {
-            image = <img alt="test" draggable="false" style={{ width: '50px', height: '50px' }} src={logo10} />
-        }
-
-        return (
-            <div class="image">
-                <div class="img">
-                    {image}
-                    <i onClick={(e) => this.onClick(e)}  class="icon-remove blue delete"></i>
+        if (this.state.image !== null) {
+            return (
+                <div className="image">
+                    <div className="img">                        
+                        <img src={this.state.image} draggable="false" style={{ width: '50px', height: '50px' }}  />
+                        <i onClick={(e) => this.onClick(e)} className="icon-remove blue delete"></i>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (<h6>no data </h6>);
+        }      
     }
 
 }

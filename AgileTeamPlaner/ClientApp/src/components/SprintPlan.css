@@ -67,3 +67,43 @@
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
+
+
+.modal-container {
+    position: relative;
+}
+
+    .modal-container .modal, .modal-container .modal-backdrop {
+        position: absolute;
+    }
+
+@media (max-width: 768px) {
+    .modal {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 0;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+}
+
+td .note {
+    padding: 20px;
+}
+
+.note {
+    position: relative;
+}
+
+.note:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    display: block;
+    border-left: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-top: 20px solid #f00;
+}

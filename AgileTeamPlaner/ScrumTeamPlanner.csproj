@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.7.0" />
@@ -20,15 +22,27 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\model\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\model\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\Repository\ISprintPlanRepository.cs" />
+    <EmbeddedResource Remove="ClientApp\src\model\**" />
+    <None Remove="ClientApp\src\model\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\Models\AddNewMember.cs" />
+    <None Remove="ClientApp\Models\AddStateToPlanAndDay.cs" />
+    <None Remove="ClientApp\Models\TeamMember.cs" />
+    <None Remove="ClientApp\Repository\ISprintPlanRepository.cs" />
+    <None Remove="ClientApp\Repository\ITeamRepository.cs" />
+    <None Remove="ClientApp\Repository\Models\SprintPlan.cs" />
+    <None Remove="ClientApp\Repository\Models\TeamMember.cs" />
+    <None Remove="ClientApp\Repository\SprintPlanRepository.cs" />
+    <None Remove="ClientApp\Repository\TeamRepository.cs" />
     <None Remove="ClientApp\src\Images\1.png" />
     <None Remove="ClientApp\src\Images\2.png" />
     <None Remove="ClientApp\src\Images\3.png" />
@@ -44,10 +58,6 @@
     <Content Include="ClientApp\src\Images\3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\model\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
