@@ -81,6 +81,6 @@ Fill the *SprintConfiguration* with a first document that descrips one sprint.
         }
     ],
     "teamMembers" : null
-}´´´
+}
 
 Start the application and begin to add some team members to your project
