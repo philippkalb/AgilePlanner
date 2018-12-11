@@ -18,12 +18,10 @@ export class TeammembersStore extends Reflux.Store {
     }
 
     onTeamUpdate() {
-        debugger;
        fetch('api/Team/')
             .then(response => response.json())
             .then(data => {
                 this.setState({ team: data, loading: false });
-                debugger;
             });
     }
 }
