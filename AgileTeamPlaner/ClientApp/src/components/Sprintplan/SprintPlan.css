@@ -1,4 +1,9 @@
 ﻿
+.boxedArea {
+    border-style: dashed;
+    border-color: darkgray;
+}
+
 .planningTable {
     width: 100%;
     border-collapse: collapse;
@@ -44,8 +49,8 @@
     margin-left: 0;
     width: 12px;
     height: 12px;
-    top: 5px;
-    right: 5px;
+    top: 2px;
+    right: 2px;
 }
 
 .delete:before {
@@ -68,14 +73,13 @@
     transform: rotate(-45deg);
 }
 
-
 .modal-container {
     position: relative;
 }
 
-    .modal-container .modal, .modal-container .modal-backdrop {
-        position: absolute;
-    }
+.modal-container .modal, .modal-container .modal-backdrop {
+     position: absolute;
+}
 
 @media (max-width: 768px) {
     .modal {
@@ -95,15 +99,36 @@ td .note {
     position: relative;
 }
 
-.note:after {
-    content: "";
+.noteIcon {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    display: block;
-    border-left: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    border-top: 20px solid #f00;
+    color: #625252;
+    display: inline-block;
+    margin-top: 0;
+    margin-left: 0;
+    width: 8px;
+    height: 8px;
+    top: 2px;
+    right: 6px;
 }
+
+.failedCell {
+    background-color: #FF7878;
+}
+
+.successCell {
+    background-color: #4BD682;
+}
+
+.top {
+    position: absolute;
+    margin-top: 0;
+    margin-left: 0;
+    width: 40px;
+    height: 8px;
+    top: 2px;
+    right: 30px;
+}
+
+
+
+

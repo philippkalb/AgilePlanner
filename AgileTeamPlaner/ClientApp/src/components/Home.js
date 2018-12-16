@@ -1,7 +1,7 @@
 import React from 'react';
-import { SprintPlanner } from './SprintPlanner';
+import { SprintPlanner } from './Sprintplan/SprintPlanner';
 
-import './SprintPlan.css';
+import './Sprintplan/SprintPlan.css';
 
 /**
  * This is the main class that renders the sprint plan. Currently, it contains lots of strange and duplicated code but hopefully this becomes better.

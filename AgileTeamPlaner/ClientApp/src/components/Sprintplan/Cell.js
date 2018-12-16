@@ -1,10 +1,11 @@
 ﻿import React from 'react';
+import Reflux from 'reflux';
 import { Image } from './Image';
 import { ContentCell } from './ContentCell';
 import './SprintPlan.css';
 import PropTypes from 'prop-types';
 import './SprintPlan.css';
-import { StatusUpdateAction } from './actions'
+import { StatusUpdateAction } from './../actions'
 
 export const CellTypes = {
     empty: 'empty',
@@ -12,11 +13,13 @@ export const CellTypes = {
     nonCalc: 'nonCalc'
 }
 
-export class Cell extends React.Component {
+export class Cell extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = { addClass: false, toggle: false }
+        this.state = { addClass: false, toggle: false, percent: this.props.percent, text: this.props.text }
         this.DisplayName = 'Cell';
+
+        this.onClick.bind(this);
     }
 
     start() {
@@ -50,18 +53,18 @@ export class Cell extends React.Component {
     onClick = (ev) => {
         var collIndex = ev.target.closest("td").cellIndex;
         var rowIndex = ev.target.closest("tr").rowIndex;
-        StatusUpdateAction(true, collIndex, rowIndex, this.props.text );
+        StatusUpdateAction(true, collIndex, rowIndex, this.state.text, this.state.percent);
     }
 
     render() {
         let boxClass = ["cellStyle"];
-        if (this.state.addClass && (Array.isArray(this.props.images) || this.props.images === 'empty')) {
+        if (this.state.addClass && (this.props.cellType !== CellTypes.ContentCell)) {
             boxClass.push('dragStyle');
         }
         if (this.props.color === 1) {
-            boxClass.push("btn-success")
+            boxClass.push("successCell")
         } else if (this.props.color === 2) {
-            boxClass.push("btn-danger")
+            boxClass.push("failedCell")
         }
 
         if (this.props.cellType === CellTypes.images) {
@@ -71,8 +74,11 @@ export class Cell extends React.Component {
                     onDragLeave={(e) => this.onDragLeave(e)}
                     onDragEnd={(e) => this.onDragEnd(e)}                    
                     className={boxClass.join(' ')} >
-                    <div className="note" onClick={(e) => this.onClick(e)}>
-                        {this.props.images.map(this.renderCell)}
+                   
+                    <div className="note">
+                        <div className="top"> {this.state.percent} %</div>
+                            {this.props.images.map(this.renderCell)}
+                       <i onClick={(e) => this.onClick(e)} className="glyphicon glyphicon-edit noteIcon"></i>
                     </div>
                 </td>
             )
@@ -82,7 +88,11 @@ export class Cell extends React.Component {
                     onDragOver={(e) => this.onDragOver(e)}
                     onDragLeave={(e) => this.onDragLeave(e)}
                     onDragEnd={(e) => this.onDragEnd(e)}
-                    className={boxClass.join(' ')}>                    
+                    className={boxClass.join(' ')}>   
+                    <div className="note">
+                        <div className="top"> {this.state.percent} %</div>
+                        <i onClick={(e) => this.onClick(e)} className="glyphicon glyphicon-edit noteIcon"></i>
+                    </div>
                 </td>
             )
         } else {

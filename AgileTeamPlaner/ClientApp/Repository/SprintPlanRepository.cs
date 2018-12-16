@@ -17,7 +17,7 @@ namespace ScrumTeamPlanner.ClientApp.Repository {
             _client = client;
         }
 
-        public Task<bool> AddTeamMemberToPlan(string planId, string storyId, int day, int memberId) {
+        public Task<bool> AddTeamMemberToPlan(string planId, string storyId, int day, string memberId) {
             var db = _client.GetDatabase(dbname);
             var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
 
@@ -54,7 +54,7 @@ namespace ScrumTeamPlanner.ClientApp.Repository {
             return Task.FromResult<SprintPlan>(result);
         }
 
-        public Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, int day, int memberId) {
+        public Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, int day, string memberId) {
             var db = _client.GetDatabase(dbname);
             var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
 
@@ -81,24 +81,22 @@ namespace ScrumTeamPlanner.ClientApp.Repository {
         /// <param name="color"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public Task<bool> AddStateToPlanAndDay(string planId, string storyId, int day, int color, string text) {
+        public Task<bool> AddStateToPlanAndDay(string planId, string storyId, int day, int color, string text, int percent) {
             var db = _client.GetDatabase(dbname);
             var collection = db.GetCollection<ScrumTeamPlanner.Repository.Models.SprintPlan>(MongoDbCollectionName);
 
             var item = new ScrumTeamPlanner.Repository.Models.DayState {
                 Day = day,
                 Color = color,
-                Text = text
+                Text = text,
+                Percent = percent
             };
 
             var builder = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Filter;
             var itemFilter = builder.Eq("sprintId", planId) & builder.Eq("userStories.name", storyId);
 
             var pullfilter = builder.Eq("day", day);
-
-            //  var deleteStatements = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.Pull("userStories.$.states", new ScrumTeamPlanner.Repository.Models.DayState { Day = day });
             var deleteStatements = Builders<ScrumTeamPlanner.Repository.Models.SprintPlan>.Update.PullFilter("userStories.$.states", pullfilter);
-        
             var deleteResult = collection.FindOneAndUpdate<ScrumTeamPlanner.Repository.Models.SprintPlan>(itemFilter, deleteStatements);
 
             //add new config but remove old one first

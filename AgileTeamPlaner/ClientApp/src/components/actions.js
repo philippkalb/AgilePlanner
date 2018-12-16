@@ -3,4 +3,5 @@
 const StatusUpdateAction = Reflux.createAction();
 const ShowAddteamMemberAction = Reflux.createAction();
 const UpdateTeamMembersList = Reflux.createAction();
-export { StatusUpdateAction, ShowAddteamMemberAction, UpdateTeamMembersList };
+const UpdateCell = Reflux.createAction();
+export { StatusUpdateAction, ShowAddteamMemberAction, UpdateTeamMembersList, UpdateCell };

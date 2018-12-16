@@ -41,7 +41,7 @@ namespace ScrumTeamPlanner.Controllers {
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody]AddToUserstoryAndDayInput value) {
+        public async Task Put(string id, [FromBody]AddToUserstoryAndDayInput value) {
             //id => user id
             await _sprintPlan.AddTeamMemberToPlan(value.SprintName, value.StoryName, value.Day, id);
         }
@@ -49,7 +49,7 @@ namespace ScrumTeamPlanner.Controllers {
         [HttpPost("{id}")]
         public async Task AddStateToPlanAndDay(int id, [FromBody]AddStateToPlanAndDay value) {
             //id => user id
-            await _sprintPlan.AddStateToPlanAndDay(value.SprintName, value.StoryName, value.Day, value.Color, value.Text);
+            await _sprintPlan.AddStateToPlanAndDay(value.SprintName, value.StoryName, value.Day, value.Color, value.Text,  value.Percent);
         }        
 
     }

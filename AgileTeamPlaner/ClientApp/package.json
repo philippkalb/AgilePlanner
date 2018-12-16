@@ -1,5 +1,5 @@
 {
-  "name": "ScrumTeamPlanner",
+  "name": "scrumteamplanner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +15,8 @@
     "moment": "^2.22.2",
     "react-bootstrap-modal": "4.2.0",
     "reflux": "6.4.1",
-    "react-avatar-edit": "0.6.0"
+    "react-avatar-edit": "0.6.0",
+    "rc-slider": "8.6.4"
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
@@ -23,4 +24,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
+  
 }

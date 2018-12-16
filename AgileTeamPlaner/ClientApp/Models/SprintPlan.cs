@@ -6,18 +6,16 @@ namespace ScrumTeamPlanner.Models {
     public class SprintPlan {
         public string SprintId { get; set; }
 
+        public double Velocity { get; set; }
+        
         public DateTime StartDate { get; set; }
 
         public int SprintLenght { get; set; }
 
         public UserStory[] UserStories { get; set; }
-
-       
-
+        
         public int[] TeamMembers { get; set; }
-
-       
-
+        
     }
 
     public class UserStory {
@@ -36,7 +34,7 @@ namespace ScrumTeamPlanner.Models {
 
         public int Day { get; set; }
 
-        public int PersonId { get; set; }
+        public string PersonId { get; set; }
     }
 
 
@@ -47,6 +45,8 @@ namespace ScrumTeamPlanner.Models {
         public int Color { get; set; }
 
         public string Text { get; set; }
+
+        public string Percent { get; set; }
     }
 }
 

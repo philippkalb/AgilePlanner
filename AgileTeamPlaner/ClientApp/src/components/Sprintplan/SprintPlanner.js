@@ -5,13 +5,12 @@ import { CellTypes } from './Cell';
 import { Team } from './Team';
 import './SprintPlan.css';
 import { ModalStore } from './ModalStore';
-import {
-     Modal, Button, 
-    ButtonToolbar, ToggleButtonGroup, ToggleButton,
-    FormGroup,  FormControl
-} from 'react-bootstrap';
+import { Modal, Button, ButtonToolbar, ToggleButtonGroup, ToggleButton, FormGroup,  FormControl} from 'react-bootstrap';
 import Reflux from 'reflux';
-import { StatusUpdateAction } from './actions'
+import { StatusUpdateAction } from './../actions';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 
 const modalStyle = {
     zIndex: 1040,
@@ -41,28 +40,36 @@ export class SprintPlanner extends Reflux.Component {
             matrix: [],
             plan: null,
             isLoading: false,
-            currentSelectedColor:1
+            currentSelectedColor: 1,
+            currentValue : 0
         };
 
         fetch('api/Sprint/' + this.props.sprintName)
             .then(response => response.json())
             .then(data => {
-                this.setState({ plan: data, loading: false });
-                this.prepareColums();
-                this.createTable();
+                table.state = {
+                    plan: data,
+                    loading: false,
+                    velocity: data.velocity
+                }
+                
+                table.prepareColums();
+                table.createTable();
             });
+
+        this.changeValue.bind(this);
     }
     
     //prepare the number and the type of the column.
     prepareColums = () => {
         var colums = [];
-        var date = new moment(this.state.plan.startDate);
+        var date = new moment(table.state.plan.startDate);
 
         colums.push({
             key: 'id',
             name: 'User Story'
         });
-        for (var c = 0; c < this.state.plan.sprintLenght; c++) {
+        for (var c = 0; c < table.state.plan.sprintLenght; c++) {
             colums.push({
                 key: date.format('dddd'),
                 name: date.format('dddd')
@@ -74,11 +81,9 @@ export class SprintPlanner extends Reflux.Component {
 
     /*Prepare the data for the table which results in a matrix. The matrix is then rendered in the render function*/
     createTable = () => {
-        let table = []
         let matrix = []
-      
         //get current sprint and create date from now
-        for (let rownumber = 0; rownumber < this.state.plan.userStories.length; rownumber++) {
+        for (let rownumber = 0; rownumber < table.state.plan.userStories.length; rownumber++) {
             let children = []
             let story = this.state.plan.userStories[rownumber];
             var peoplePerDay = {};
@@ -102,7 +107,7 @@ export class SprintPlanner extends Reflux.Component {
             }
           
             //Inner loop to create children
-            for (let colnumber = 0; colnumber <= this.state.plan.sprintLenght; colnumber++) {
+            for (let colnumber = 0; colnumber <= table.state.plan.sprintLenght; colnumber++) {
                 if (colnumber === 0) {
                     children.push({
                         id: colnumber,
@@ -118,6 +123,7 @@ export class SprintPlanner extends Reflux.Component {
                     if (peoplePerDay[colnumber]) {
                         var text = '';
                         var color = 1;
+                        var percent = 0;
                         if (statesPerDay[colnumber] && statesPerDay[colnumber].text) {
                             text = statesPerDay[colnumber].text;
                         }
@@ -126,19 +132,25 @@ export class SprintPlanner extends Reflux.Component {
                             color = statesPerDay[colnumber].color;
                         }
 
+                        if (statesPerDay[colnumber] && statesPerDay[colnumber].percent) {
+                            percent = statesPerDay[colnumber].percent;
+                        }
+
                         var people = peoplePerDay[colnumber];
                         children.push({
                             type: CellTypes.images,
                             people: people,
                             color: color,
-                            text: text
+                            text: text,
+                            percent: percent
                         });
                     } else {
                         children.push({
                             type: CellTypes.images,
                             people: [],
-                            color: 1,
-                            text: ''
+                            color: 3,
+                            text: '',
+                            percent: 0
                         });
                     }
                 }               
@@ -151,21 +163,20 @@ export class SprintPlanner extends Reflux.Component {
             });
         }
 
-        this.setState({ matrix: matrix });
+        table.setState({ matrix: matrix, velocity: table.state.plan.velocity });
         return table
     }
 
     renderTable = () => {
-        let table = []
+       
         let headerrows = []
         let rows = []
 
         for (let j = 0; j < this._columns.length; j++) {
             headerrows.push(<th>{`${this._columns[j].name}`}</th>)
         }
-
-        for (let key in this.state.matrix) {
-            var row = this.state.matrix[key];
+        for (let key in table.state.matrix) {
+            var row = table.state.matrix[key];
             let children = []
             //Inner loop to create children
             var totalpeople = 0;
@@ -173,11 +184,11 @@ export class SprintPlanner extends Reflux.Component {
 
                 let rowContent = row.children[colkey];
                 if ((rowContent.type === CellTypes.images) && (rowContent.people.length > 0)) {
-                    children.push(<Cell removeMemberFromDay={this.onRemoveMemberFromDay} cellType={CellTypes.images} images={rowContent.people} color={rowContent.color} text={rowContent.text} ></Cell>)
+                    children.push(<Cell key={table.state.sprintName + " " + row + " " + colkey + "" + rowContent.percent} removeMemberFromDay={this.onRemoveMemberFromDay} cellType={CellTypes.images} images={rowContent.people} color={rowContent.color} text={rowContent.text} percent={rowContent.percent} ></Cell>)
                 } else if ((rowContent.type === CellTypes.images) && (rowContent.people.length === 0)) {
-                    children.push(<Cell key={this.state.sprintName + " " + row + " " + colkey} cellType={CellTypes.empty} images={rowContent.people} text={rowContent.text} ></Cell>)
+                    children.push(<Cell key={table.state.sprintName + " " + row + " " + colkey + "" + rowContent.percent} removeMemberFromDay={this.onRemoveMemberFromDay} cellType={CellTypes.empty} images={rowContent.people} text={rowContent.text} color={rowContent.color} percent={rowContent.percent}></Cell>)
                 } else {
-                    children.push(<Cell key={this.state.sprintName + " " + row + " " + colkey} cellType={CellTypes.context} context={rowContent} text={rowContent.text}></Cell>)
+                    children.push(<Cell key={table.state.sprintName + " " + row + " " + colkey} cellType={CellTypes.context} context={rowContent} text={rowContent.text}></Cell>)
                 }               
 
                 if (colkey !== 0 && (rowContent.people.length > 0)) {
@@ -187,9 +198,10 @@ export class SprintPlanner extends Reflux.Component {
             row.children[0].workdays = totalpeople;
             rows.push(<tr>{children}</tr>)
         }
-        table.push(<thead><tr>{headerrows}</tr></thead>)
-        table.push(<tbody>{rows}</tbody>)
-        return table
+        let tableBody = []
+        tableBody.push(<thead><tr>{headerrows}</tr></thead>)
+        tableBody.push(<tbody>{rows}</tbody>)
+        return tableBody
     }
 
     onDragOver = (ev) => {
@@ -283,7 +295,7 @@ export class SprintPlanner extends Reflux.Component {
         var matrix = this.state.matrix;
         var row = matrix[CurrentRowIndex - 1];
         var cell = row.children[CurrentCollIndex];
-        StatusUpdateAction(false);
+      
         
         if (cell.type === CellTypes.images) {
             fetch('api/Sprint/AddStateToPlanAndDay', {
@@ -297,14 +309,18 @@ export class SprintPlanner extends Reflux.Component {
                     storyName: row.children[0].story,
                     day: CurrentCollIndex,
                     color: table.state.currentSelectedColor,
-                    text: table.state.currentInputText
+                    text: table.state.currentInputText,
+                    percent: this.state.percentValue
                 })
             }).then(response => {
                 cell.color = table.state.currentSelectedColor;
                 cell.text = table.state.currentInputText;
-                this.setState({
+                cell.percent = table.state.percentValue;
+                table.setState({
                     matrix: matrix
                 });
+                debugger;
+                StatusUpdateAction(false, CurrentCollIndex, CurrentRowIndex, table.state.currentInputText, table.state.percentValue);
             });
         }
     }
@@ -324,11 +340,18 @@ export class SprintPlanner extends Reflux.Component {
         table.setState({ currentInputText: fieldValue })
     }
 
+    changeValue(event) {
+        let fieldValue = event;
+        table.setState({ percentValue: fieldValue });
+    }   
+
+
     render() {
         const open = this.state.openDialog;
+           
         return (
             <div >
-                <h1>Plan Your Sprint {this.props.sprintName}</h1>
+                <h1>Plan Your Sprint {this.props.sprintName}<small>velocity {table.state.velocity}</small></h1>
                 <table
                     onDragOver={(e) => this.onDragOver(e)}
                     onDrop={(e) => this.onDrop(e, "complete")} 
@@ -355,6 +378,10 @@ export class SprintPlanner extends Reflux.Component {
                                 <ToggleButton value={3}>Reset</ToggleButton>
                             </ToggleButtonGroup>
                         </ButtonToolbar>
+                        <h4>
+                            Progress for today: {this.state.percentValue} %
+                        </h4>
+                        <Slider min={0} max={100} step={10} onChange={this.changeValue} value={this.state.percentValue} />
                         <h4>
                             Further comments:
                         </h4>

@@ -14,6 +14,9 @@ namespace ScrumTeamPlanner.Repository.Models {
         [BsonElement("sprintId")]
         public string SprintId { get; set; }
 
+        [BsonElement("velocity")]
+        public double Velocity { get; set; }
+        
         [BsonElement("startDate")]
         public DateTime StartDate { get; set; }
 
@@ -54,7 +57,7 @@ namespace ScrumTeamPlanner.Repository.Models {
         public int Day { get; set; }
 
         [BsonElement("personId")]
-        public int PersonId { get; set; }
+        public string PersonId { get; set; }
     }
 
     [BsonIgnoreExtraElements]
@@ -68,6 +71,9 @@ namespace ScrumTeamPlanner.Repository.Models {
 
         [BsonElement("text")]
         public string Text { get; set; }
+
+        [BsonElement("percent")]
+        public int Percent { get; set; }
     }
 }
 

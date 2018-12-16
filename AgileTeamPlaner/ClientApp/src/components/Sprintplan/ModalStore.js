@@ -1,5 +1,5 @@
 ﻿import Reflux from 'reflux';
-import { StatusUpdateAction } from './actions'
+import { StatusUpdateAction } from './../actions'
 
 
 export class ModalStore extends Reflux.Store {
@@ -17,12 +17,13 @@ export class ModalStore extends Reflux.Store {
         // failed, with whatever message you sent
     }
 
-    onStatusUpdate(status, collIndex, rowIndex, text) {
+    onStatusUpdate(status, collIndex, rowIndex, text, percent) {
         this.setState({
             openDialog: status,
             CurrentCollIndex: collIndex,
             CurrentRowIndex: rowIndex,
-            cellText: text
+            cellText: text,
+            percentValue: percent
         });
     }
 }

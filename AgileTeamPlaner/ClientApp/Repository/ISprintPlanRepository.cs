@@ -9,10 +9,10 @@ namespace ScrumTeamPlanner.ClientApp.Repository {
 
         Task<SprintPlan> GetPlan(string id);
 
-        Task<bool> AddTeamMemberToPlan(string planId, string storyId, int day, int memberId);
+        Task<bool> AddTeamMemberToPlan(string planId, string storyId, int day, string memberId);
 
-        Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, int day, int memberId);
+        Task<bool> RemoveTeamMemberFromPlan(string planId, string storyId, int day, string memberId);
 
-        Task<bool> AddStateToPlanAndDay(string planId, string storyId, int day, int color, string text);
+        Task<bool> AddStateToPlanAndDay(string planId, string storyId, int day, int color, string text, int percent);
     }
 }
