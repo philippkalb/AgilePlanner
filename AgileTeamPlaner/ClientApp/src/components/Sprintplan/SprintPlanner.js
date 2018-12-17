@@ -70,10 +70,12 @@ export class SprintPlanner extends Reflux.Component {
             name: 'User Story'
         });
         for (var c = 0; c < table.state.plan.sprintLenght; c++) {
-            colums.push({
-                key: date.format('dddd'),
-                name: date.format('dddd')
-            });
+            if (date.isoWeekday() !== 6 && date.isoWeekday() !== 7) {
+                colums.push({
+                    key: date.format('dddd'),
+                    name: date.format('dddd')
+                });
+            }
            date.add(1, 'days');
         }
         this._columns = colums;
@@ -98,6 +100,7 @@ export class SprintPlanner extends Reflux.Component {
                 peoplePerDay[emp.day].push(emp.personId);
             }
 
+            //load the color, the text and the percent
             for (var j = 0,  state; j < story.states.length; j++) {
                 state = story.states[j];
                 if (!statesPerDay[state.day]) {
@@ -105,7 +108,8 @@ export class SprintPlanner extends Reflux.Component {
                 }
                 statesPerDay[state.day] = state;
             }
-          
+
+            var date = new moment(table.state.plan.startDate);
             //Inner loop to create children
             for (let colnumber = 0; colnumber <= table.state.plan.sprintLenght; colnumber++) {
                 if (colnumber === 0) {
@@ -120,6 +124,12 @@ export class SprintPlanner extends Reflux.Component {
                         text: ''
                     });
                 } else {
+                    //check if its a weekend, if it is do not add it
+                    if (date.isoWeekday() === 6 || date.isoWeekday() === 7) {
+                        date.add(1, 'days');
+                        continue;
+                    }
+                    date.add(1, 'days');
                     if (peoplePerDay[colnumber]) {
                         var text = '';
                         var color = 1;
@@ -355,7 +365,7 @@ export class SprintPlanner extends Reflux.Component {
                 <table
                     onDragOver={(e) => this.onDragOver(e)}
                     onDrop={(e) => this.onDrop(e, "complete")} 
-                    className="table table-bordered table-striped planningTable">
+                    className="table table-bordered table-striped planningTable ">
                     {this.renderTable()}
                 </table>
                 <Team />
@@ -372,7 +382,7 @@ export class SprintPlanner extends Reflux.Component {
                             State of the current Story in the Sprint:
                         </h4>
                         <ButtonToolbar>
-                            <ToggleButtonGroup type="radio" name="options" defaultValue={1} onChange={this.handleChangeOfColor}>
+                            <ToggleButtonGroup type="radio" name="options" defaultValue={3} onChange={this.handleChangeOfColor}>
                                 <ToggleButton bsStyle="success" value={1}>Success</ToggleButton>
                                 <ToggleButton bsStyle="danger" value={2}>Failed</ToggleButton>
                                 <ToggleButton value={3}>Reset</ToggleButton>
